@@ -8,14 +8,18 @@ from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
 from flask_wtf.csrf import CSRFProtect
 from redis import Redis
-from flask_limiter.util import get_remote_address
+from dotenv import load_dotenv
+import os
+
+# Load environment variables from .env file
+load_dotenv()
 
 app = Flask(__name__)
 
 # Configure the SQLite database
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///assistant.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['SECRET_KEY'] = 'd49af2116cc63cf19afa9da7a1c5879c'
+app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'your-default-secret-key')  # Use environment variable or fallback
 app.config['SESSION_COOKIE_SECURE'] = True  # Secure cookies
 db = SQLAlchemy(app)
 csrf = CSRFProtect(app)
@@ -32,8 +36,8 @@ limiter = Limiter(
 # Configure logging
 logging.basicConfig(filename='app.log', level=logging.INFO)
 
-# OpenAI API key
-openai.api_key = 'sk-N93Tc9xg4X4jknMAkoH0HUcb5stTjzEZ_7Xy4XxpzGT3BlbkFJVtydRXv7TvkM-lwuFFgFPVj1GJpVlds19nkAAA7sgA'
+# OpenAI API key from environment variable
+openai.api_key = os.getenv('OPENAI_API_KEY')
 
 # Define the User model
 class User(db.Model):
