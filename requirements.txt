@@ -4,7 +4,7 @@ anyio==3.7.0
 blinker==1.6.3
 bottle==0.12.25
 certifi==2024.7.4
-cffi==1.15.1
+cffi==1.17.0
 charset-normalizer==3.3.2
 click==8.1.7
 clr-loader==0.2.6
